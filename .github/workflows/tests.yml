@@ -1,3 +1,9 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 2 optimizations:
+# - [MEDIUM] Add concurrency group to "tests.yml"
+# - [LOW] Explicitly set fail-fast for large matrix job "tests-older" (9 combinations)
+# Estimated savings: ~4 min/run
+#
 name: Tests
 
 on:
@@ -12,6 +18,10 @@ on:
     # Run at 00:00 UTC on the first day of each month
     - cron: '00 00 1 * *'
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 env:
   THREADS: 2
 
