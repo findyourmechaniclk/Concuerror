@@ -69,6 +69,13 @@ jobs:
     name: OTP ${{ matrix.otp }} - ${{ matrix.target }}
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache
+          key: ${{ runner.os }}-rebar-${{ matrix.otp }}-${{ matrix.target }}-${{ hashFiles('rebar.config') }}
+          restore-keys: |
+            ${{ runner.os }}-rebar-${{ matrix.otp }}-${{ matrix.target }}-
+            ${{ runner.os }}-rebar-${{ matrix.otp }}-
       - if: matrix.target != 'tests-unit'
         run: .github/scripts/covertool_setup
       - run: make ${{ matrix.target }}
@@ -104,4 +111,11 @@ jobs:
     name: OTP ${{ matrix.otp }} - ${{ matrix.target }}
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache
+          key: ${{ runner.os }}-rebar-${{ matrix.otp }}-${{ matrix.target }}-${{ hashFiles('rebar.config') }}
+          restore-keys: |
+            ${{ runner.os }}-rebar-${{ matrix.otp }}-${{ matrix.target }}-
+            ${{ runner.os }}-rebar-${{ matrix.otp }}-
       - run: make ${{ matrix.target }}
